@@ -5,6 +5,7 @@
   "main": "./dist/tinydb.js",
   "type": "module",
   "types": "./dist/tinydb.d.ts",
+  "private": false,
   "scripts": {
     "watch": "npx tsc --watch",
     "build": "tsc",
@@ -26,7 +27,7 @@
     "url": "https://github.com/meanii/tinydb/issues"
   },
   "publishConfig": {
-    "@meanii:registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org"
   },
   "homepage": "https://github.com/meanii/tinydb#readme",
   "devDependencies": {
