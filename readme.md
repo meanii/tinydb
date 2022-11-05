@@ -1,3 +1,4 @@
+
 # tinydb 💫
 
 tinydb is json database, which you can use for as local non-sql database.
@@ -19,8 +20,8 @@ const db = new Tinydb(`touka.ssh`);
 class ToukaStorage extends Tinydb {
     constructor() {
         super(`touka.ssh`)
-        }
-        }
+    }
+}
 
 const db = new ToukaStorage()
 ```
@@ -39,14 +40,15 @@ await db.insertOne({username: `meanii`})
 const data = await db.findOne({username: `meanii`})
 console.log(data)
 ```
-```
+```javascript
 {
-    username: 'meanii',
-    uuid: 'd95f3826-f82a-4944-9d56-df28740009f0',
-    createdAt: '2022-11-05T11:12:05.196Z',
-    updatedAt: '2022-11-05T11:12:05.196Z'
-    }
-    ```
+  username: 'meanii',
+  uuid: 'd95f3826-f82a-4944-9d56-df28740009f0',
+  createdAt: '2022-11-05T11:12:05.196Z',
+  updatedAt: '2022-11-05T11:12:05.196Z'
+}
+```
+
 
 ### deleteMany
 
