@@ -1,6 +1,6 @@
 {
   "name": "@meanii/tinydb",
-  "version": "0.0.9",
+  "version": "0.0.10-0",
   "description": "tinydb is something, which you can use for as local non-sql database",
   "main": "./dist/tinydb.js",
   "type": "module",
