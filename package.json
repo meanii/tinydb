@@ -1,6 +1,6 @@
 {
   "name": "@meanii/tinydb",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "tinydb is something, which you can use for as local non-sql database",
   "main": "./dist/tinydb.js",
   "type": "module",
@@ -24,6 +24,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/meanii/tinydb/issues"
+  },
+  "publishConfig": {
+    "@meanii:registry": "https://npm.pkg.github.com"
   },
   "homepage": "https://github.com/meanii/tinydb#readme",
   "devDependencies": {
