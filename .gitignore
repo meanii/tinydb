@@ -106,7 +106,7 @@ dist
 
 # vuepress v2.x temp and cache directory
 .temp
-*.json
+.*.json
 test
 # Docusaurus cache and generated files
 .docusaurus
