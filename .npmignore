@@ -1,0 +1,4 @@
+!dist
+src
+*.json
+node_modules
