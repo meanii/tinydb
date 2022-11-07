@@ -1,7 +1,7 @@
 import path from 'path';
 import fsp from 'node:fs/promises';
 import { v4 as uuidv4 } from 'uuid';
-import {TinyDBModelType} from "./tinydb.type";
+import { TinyDBModelType } from "./tinydb.type";
 
 
 /**
@@ -21,17 +21,16 @@ export class Tinydb {
      * weather if its already created or not
      */
     private readonly database: string
-    private readonly  dbPath: string
-    private readonly  ACTIONS
+    private readonly dbPath: string
+    private readonly ACTIONS = {
+        query: (data: TinyDBModelType[], query: TinyDBModelType): TinyDBModelType[] => data.filter(item => item[Object.keys(query).pop()] !== Object.values(query).pop()),
+        update: (data: TinyDBModelType[], query: TinyDBModelType): TinyDBModelType => data.find(item => item[Object.keys(query).pop()] === Object.values(query).pop())
+    }
 
     constructor(database: string) {
         this.database = database
         this.dbPath = path.join(this.location, `.${this.database}.json`)
         const _ = async () => await this.init()
-        this.ACTIONS = {
-            query: (data: TinyDBModelType[], query: TinyDBModelType) => data.filter(item => item[Object.keys(query).pop()] !== Object.values(query).pop()),
-            update: (data: TinyDBModelType[], query: TinyDBModelType): TinyDBModelType => data.find(item => item[Object.keys(query).pop()] === Object.values(query).pop())
-        }
     }
 
     /**
@@ -46,7 +45,7 @@ export class Tinydb {
      * this function helps to get all data from the database
      * @returns {Promise<Array>}
      */
-    public get<T extends TinyDBModelType>(): Promise<T[]> {
+    public get(): Promise<TinyDBModelType[]> {
         return new Promise(async (resolve) => {
             try {
                 const data = JSON.parse(String(await fsp.readFile(this.dbPath)))?.db ?? []
@@ -62,7 +61,7 @@ export class Tinydb {
      * @param query
      * @returns {Promise<null|*>}
      */
-    public async findOne(query): Promise<null|TinyDBModelType> {
+    public async findOne(query: TinyDBModelType): Promise<null | TinyDBModelType> {
         let data = await this.get()
         const i = data.findIndex(key => key[Object.keys(query)[0]] === Object.values(query)[0]);
         if (i > -1) return data[i];
@@ -74,7 +73,7 @@ export class Tinydb {
      * @param query
      * @returns {Promise<null|*>}
      */
-    async deleteMany(query): Promise<TinyDBModelType[]> {
+    async deleteMany<T extends TinyDBModelType>(query: T): Promise<TinyDBModelType[]> {
         let data = await this.get()
         return this.write([...this.ACTIONS.query(data, query)])
     }
@@ -85,9 +84,9 @@ export class Tinydb {
      * @returns {Promise<void>}
      */
     public async insertOne<T extends TinyDBModelType>(data: T): Promise<T> {
-        if(!data?.uuid) data.uuid = uuidv4()
+        if (!data?._id) data._id = uuidv4()
         const content = await this.get()
-        if(content.find(item => item.uuid === data.uuid)) throw new Error('Primary key should be unique!')
+        if (content.find(item => item._id === data._id)) throw new Error(`Primary key should be unique!`)
         content.push({ ...data, createdAt: new Date(), updatedAt: new Date() } as never)
         await this.write(content)
         return data
@@ -111,7 +110,7 @@ export class Tinydb {
      * @param object
      * @returns {Promise<void>}
      */
-    private async write<T>(object: T[]): Promise<T[]> {
+    private async write<T extends TinyDBModelType>(object: TinyDBModelType[]): Promise<TinyDBModelType[]> {
         await fsp.writeFile(this.dbPath, JSON.stringify({ db: object }, null, "\t"))
         return await this.get()
     }

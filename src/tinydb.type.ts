@@ -1,5 +1,5 @@
 export type TinydbType = {
-    uuid?: string
+    _id?: string
     createdAt?: Date
     updatedAt?: Date
 }

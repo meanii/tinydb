@@ -36,7 +36,6 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@meanii/tinydb": "^0.0.2",
     "uuid": "^9.0.0"
   }
 }
